@@ -115,7 +115,7 @@ function track_scratch_access(pkg_uuid::UUID, scratch_path::AbstractString)
         # by `pkg_uuid`, then find its owning `Project.toml`:
         for (p, m) in Base.loaded_modules
             if p.uuid == pkg_uuid
-                source_path = Base.pathof(m)
+                source_path = Base.find_package(String(nameof(m)))
                 if source_path !== nothing
                     return Base.current_project(dirname(source_path))
                 end
