@@ -214,7 +214,11 @@ function get_scratch!(parent_pkg::Union{Module,UUID,Nothing}, key::AbstractStrin
     mkpath(path)
 
     # We need to keep track of who is using which spaces, so we track usage in a log
-    track_scratch_access(calling_pkg, path)
+    try
+        track_scratch_access(calling_pkg, path)
+    catch
+        nothing
+    end
     return path
 end
 get_scratch!(key::AbstractString) = get_scratch!(nothing, key)
